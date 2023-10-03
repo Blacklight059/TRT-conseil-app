@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello !{% endblock %}
+
+{% block content %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+    <div class="container-fluid">
+        {# Titre de la page #}
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Gestion de vos offres d'emploi</h1>
+        </div>
+    </div>
+
+        <div class="row alert alert-warning" role="alert">
+            <div class="col-xs-9 col-sm-10"></div>
+
+            <div class="col-xs-3 col-sm-2">
+                <a href="{{ path('joboffers_add') }}" role="button" class="btn btn-info text-right">
+                    <i class="fa fa-plus fa-fw"></i> Ajouter une offre
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Société</th>
+                    <th scope="col">Adresse</th>
+                    <th scope="col">Code postale</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Description</th>
+
+                    <th scope="col">{# Bouton d'action - Supprimer #}</th>
+                    <th scope="col">{# Bouton d'action - Modifier #}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jobOffers in offers %}
+                    {% if(userID == jobOffers.recruiter) %}
+                        <tr>
+                            <th scope="row">
+                                {{ jobOffers.id }}
+                            </th>
+                            <td>
+                                {{ jobOffers.title }}
+                            </td>
+                            <td>
+                                {{ jobOffers.companyName }}
+                            </td>
+                            <td>
+                                {{ jobOffers.address }}
+                            </td>
+                            <td>
+                                {{ jobOffers.zipcode }}
+                            </td>
+                            <td>
+                                {{ jobOffers.description }}
+                            </td>
+                            <td>
+                                <a href="{{ path('joboffers_remove', {'id': jobOffers.id}) }}" role="button" class="btn btn-danger">Supprimer</a>
+                            </td>
+                            <td>
+                                <a href="{{ path('joboffers_edit', {'id': jobOffers.id}) }}" role="button" class="btn btn-info">Modifier</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

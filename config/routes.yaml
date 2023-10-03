@@ -1,0 +1,147 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+Homepage:
+    path: /
+    controller: "App/Controller/HomeController::index"
+
+
+app_login:
+    path: /login
+    controller: "App:Controller/SecurityController::index"
+
+admin:
+    path: /admin
+    controller: "App:Controller/AdminController::index"
+
+candidate:
+    path: /candidate
+    controller: "App:Controller/CandidateController::index"
+
+admin_remove:
+    path: /admin/_remove/{id}
+    controller: "App/Controller/AdminController::remove"
+    requirements:
+        id: '\d+'
+
+
+admin_edit:
+    path: /admin/_edit/{id}
+    controller: "App/Controller/AdminController::edit"
+    requirements:
+        id: '\d+'
+
+candidate_edit:
+    path: /candidate/_edit/{id}
+    controller: "App/Controller/CandidateController::edit"
+    requirements:
+        id: '\d+'
+
+admin_add:
+    path: /admin/add
+    controller: "App:Controller/AdminController::add"
+
+
+joboffers:
+    path: /joboffers
+    controller: "App:Controller/JobOffersController::index"
+
+consultant:
+    path: /consultant
+    controller: "App:Controller/ConsultantController::index"
+
+email:
+    path: /consultant/_email/{id1}/{id2}
+    controller: "App:Controller/ConsultantController::sendEmail"
+    requirements:
+        id: '\d+'
+
+
+recruiter:
+    path: /recruiter
+    controller: "App:Controller/RecruiterController::index"
+
+recruiter_edit:
+    path: /recruiter/_edit/{id}
+    controller: "App/Controller/RecruiterController::edit"
+    requirements:
+        id: '\d+'
+
+joboffers_remove:
+    path: /joboffers/_remove/{id}
+    controller: "App/Controller/JobOffersController::remove"
+    requirements:
+        id: '\d+'
+
+
+joboffers_edit:
+    path: /joboffers/_edit/{id}
+    controller: "App/Controller/JobOffersController::edit"
+    requirements:
+        id: '\d+'
+
+joboffers_add:
+    path: /joboffers/_add
+    controller: "App:Controller/JobOffersController::edit"
+
+user_edit:
+    path: /user/_edit/{id}
+    controller: "App/Controller/Controller::edit"
+    requirements:
+        id: '\d+'
+
+user_remove:
+    path: /user_remove/{id}
+    controller: "App/Controller/Controller::remove"
+
+
+applicationJob:
+    path: /applicationJob/_edit/{id}
+    controller: "App/Controller/CandidateController::edit"
+    requirements:
+        id: '\d+'
+
+validation_recruiter:
+    path: /consultant/validation_recruiter/{id}
+    controller: "App/Controller/ConsultantController::validation_recruiter"
+    requirements:
+        id: '\d+'
+
+validation_candidate:
+    path: /consultant/validation_candidate/{id}
+    controller: "App/Controller/ConsultantController::validation_candidate"
+    requirements:
+        id: '\d+'
+
+consultant_validationJob:
+    path: /consultant/validationJob/{id}
+    controller: "App/Controller/ConsultantController::validationJob"
+    requirements:
+        id: '\d+'
+
+applyjob:
+    path: /joboffers/_applyjob/{id}
+    controller: "App/Controller/JobOffersController::applyjob"
+    requirements:
+        id: '\d+'
+        
+candidate_add: 
+    path: /candidate/add
+    controller: "App/Controller/CandidateController::add"
+
+recruiter_add: 
+    path: /recruiter/add
+    controller: "App/Controller/RecruiterController::add"
+
+recruiter_remove:
+    path: /recuiter_remove/{id}
+    controller: "App/Controller/RecruiterController::remove"
+
+
+candidate_remove:
+    path: /candidate_remove/{id}
+    controller: "App/Controller/CandidateController::remove"
+

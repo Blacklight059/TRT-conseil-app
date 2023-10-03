@@ -1,0 +1,77 @@
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" 
+href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% block stylesheets %}
+    {% endblock %}
+    <title>Trt-conseil - {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ path('Homepage') }}">Trt-conseil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobileMenu" aria-controls="mobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mobileMenu">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                {% if app.user %}
+                <li class="nav-item">
+                    <span class="nav-link">Bienvenue {{ app.user.firstname }}!</span>
+                </li>
+                {% endif %}
+
+                <li class="nav-item {{ app.request.get('_route') == 'Homepage' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('Homepage') }}">Accueil</a>
+                </li>
+                {% if app.user %}
+                {% if( app.user.roles[0] == 'ROLE_ADMIN') %}
+                    <li class="nav-item {{ app.request.get('_route') == 'admin' ? 'active' : 'admin' }}">
+                        <a class="nav-link" href="{{ path('admin') }}">Administration</a>
+                    </li>                
+                {% endif %}
+                               {% if( app.user.roles[0] == 'ROLE_CONSULTANT') %}
+                    <li class="nav-item {{ app.request.get('_route') == 'consultant' ? 'active' : 'admin' }}">
+                        <a class="nav-link" href="{{ path('consultant') }}">Validation</a>
+                    </li>                
+                {% endif %}
+                {% if( app.user.roles[0] == 'ROLE_RECRUITER') %}
+                    <li class="nav-item {{ app.request.get('_route') == 'recruiter' ? 'active' : 'recruiter' }}">
+                        <a class="nav-link" href="{{ path('recruiter') }}">Gérer mes offres d'emploi</a>
+                    </li>                
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+                {% else %}
+                <li class="nav-item {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                </li>
+                <li class="nav-item {{ app.request.get('_route') == 'app_register' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('recruiter_add') }}">Inscription Recruteur</a>
+                </li>
+                <li class="nav-item {{ app.request.get('_route') == 'candidate_add' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('candidate_add') }}">Inscription Candidat</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+    {% block content %}{% endblock %}
+    </div>
+    
+    {% block scripts %}
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    {% endblock %}
+</body>
+
+</html>
