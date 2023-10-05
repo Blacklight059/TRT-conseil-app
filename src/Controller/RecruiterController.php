@@ -28,39 +28,5 @@ class RecruiterController extends AbstractController
         ]);
     }
 
-    #[Route('/add', name: 'recruiter_add')]
-    public function add(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthentificatorAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
-    {
-    
-        $user = new Recruiter();
 
-        $form = $this->createForm(RecruiterType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            $user->setRoles(['ROLE_RECRUITER']);
-            
-            $entityManager->persist($user);
-            $entityManager->flush();
-            // do anything else you need here, like send an email
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request,
-            );
-        }
-
-        return $this->render('recruiter/add.html.twig', [
-            'registrationForm' => $form->createView(),
-        ]);
-    }
 }

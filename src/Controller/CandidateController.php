@@ -35,71 +35,7 @@ class CandidateController extends AbstractController
             ]);
         }
 
-        #[Route('/add', name: 'candidate_add')]
-        public function add(Request $request, 
-        UserPasswordHasherInterface $userPasswordHasher, 
-        UserAuthenticatorInterface $userAuthenticator, 
-        UserAuthentificatorAuthenticator $authenticator, 
-        EntityManagerInterface $entityManager,
-        SluggerInterface $slugger
-        ): Response
-        {
-        
-            $user = new Candidate();
 
-            $form = $this->createForm(CandidateType::class, $user);
-            $form->handleRequest($request);
-    
-            if ($form->isSubmitted() && $form->isValid()) {
-                /** @var UploadedFile $CVFilename */
-                $CVFilename = $form->get('CVFilename')->getData();
-                            // this condition is needed because the 'CVFileName' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($CVFilename) {
-                $originalFilename = pathinfo($CVFilename->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$CVFilename->guessExtension();
-
-                // Move the file to the directory where CVFilenames are stored
-                try {
-                    $CVFilename->move(
-                        $this->getParameter('CVFilenames_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'CVFilename' property to store the PDF file name
-                // instead of its contents
-                $user->setCVFilename($newFilename);
-            }
-                // encode the plain password
-    
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
-                $user->setRoles(['ROLE_CANDIDATE']);
-                
-                $entityManager->persist($user);
-                $entityManager->flush();
-                // do anything else you need here, like send an email
-    
-                return $userAuthenticator->authenticateUser(
-                    $user,
-                    $authenticator,
-                    $request,
-                );
-            }
-    
-            return $this->render('candidate/add.html.twig', [
-                'registrationForm' => $form->createView(),
-            ]);
-        }
 
         #[Route('/_edit/{id}', name: 'candidate_edit')]
         public function edit(Request $request, 

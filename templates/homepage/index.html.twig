@@ -41,7 +41,7 @@
                     <th scope="col">Ville</th>
                     <th scope="col">Description</th>
                     {% if(user == 'ROLE_CANDIDATE') %}
-                            <th scope="col">{# Bouton d'action - Postuler #}</th>
+                        <th scope="col">{# Bouton d'action - Postuler #}</th>
                     {% endif %}
                 </tr>
             </thead>
@@ -70,7 +70,7 @@
                                 {{ jobOffers.description }}
                             </td>
                             {% if(user == 'ROLE_CANDIDATE') %}
-                                {% if(candidate == 'true') %}
+                                {% if(candidate == true) %}
                                     <td>
                                         Candidature envoyée
                                     </td>

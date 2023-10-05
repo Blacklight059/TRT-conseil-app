@@ -60,9 +60,9 @@ security:
     access_control:
          - { path: ^/admin/, roles: ROLE_ADMIN }
          - { path: ^/consultant, roles: 'ROLE_CONSULTANT' }
-         - { path: ^/recruiter, roles: 'ROLE_RECRUITER' }
-         - { path: ^/candidate, roles: 'ROLE_CANDIDATE' }
-         - { path: ^/(Login|Registrer), roles: 'PUBLIC_ACCESS'  }
+         - { path: ^/recruiter/, roles: 'ROLE_RECRUITER' }
+         - { path: ^/candidate/, roles: 'ROLE_CANDIDATE' }
+         - { path: ^/(Login), roles: 'PUBLIC_ACCESS'  }
          - { path: ^/, roles: 'PUBLIC_ACCESS'  }
 
         # - { path: ^/profile, roles: ROLE_USER }

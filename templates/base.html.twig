@@ -29,34 +29,40 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" int
                     <a class="nav-link" href="{{ path('Homepage') }}">Accueil</a>
                 </li>
                 {% if app.user %}
-                {% if( app.user.roles[0] == 'ROLE_ADMIN') %}
-                    <li class="nav-item {{ app.request.get('_route') == 'admin' ? 'active' : 'admin' }}">
-                        <a class="nav-link" href="{{ path('admin') }}">Administration</a>
-                    </li>                
-                {% endif %}
-                               {% if( app.user.roles[0] == 'ROLE_CONSULTANT') %}
-                    <li class="nav-item {{ app.request.get('_route') == 'consultant' ? 'active' : 'admin' }}">
-                        <a class="nav-link" href="{{ path('consultant') }}">Validation</a>
-                    </li>                
-                {% endif %}
-                {% if( app.user.roles[0] == 'ROLE_RECRUITER') %}
-                    <li class="nav-item {{ app.request.get('_route') == 'recruiter' ? 'active' : 'recruiter' }}">
-                        <a class="nav-link" href="{{ path('recruiter') }}">Gérer mes offres d'emploi</a>
-                    </li>                
-                {% endif %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
-                </li>
-                {% else %}
-                <li class="nav-item {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-                </li>
-                <li class="nav-item {{ app.request.get('_route') == 'app_register' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ path('recruiter_add') }}">Inscription Recruteur</a>
-                </li>
-                <li class="nav-item {{ app.request.get('_route') == 'candidate_add' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ path('candidate_add') }}">Inscription Candidat</a>
-                </li>
+                    {% if( app.user.roles[0] == 'ROLE_ADMIN') %}
+                        <li class="nav-item {{ app.request.get('_route') == 'admin' ? 'active' : 'admin' }}">
+                            <a class="nav-link" href="{{ path('admin') }}">Administration</a>
+                        </li>                
+                    {% endif %}
+                    {% if( app.user.roles[0] == 'ROLE_CONSULTANT') %}
+                        <li class="nav-item {{ app.request.get('_route') == 'consultant' ? 'active' : 'admin' }}">
+                            <a class="nav-link" href="{{ path('consultant') }}">Validation</a>
+                        </li>                
+                    {% endif %}
+                    {% if( app.user.roles[0] == 'ROLE_RECRUITER') %}
+                        <li class="nav-item {{ app.request.get('_route') == 'recruiter' ? 'active' : 'recruiter' }}">
+                            <a class="nav-link" href="{{ path('recruiter') }}">Gérer mes offres d'emploi</a>
+                        </li>                
+                    {% endif %}
+                    {% if( app.user.roles[0] == 'ROLE_CANDIDATE') %}
+                        <li class="nav-item {{ app.request.get('_route') == 'candidate' ? 'active' : 'recruiter' }}">
+                            <a class="nav-link" href="{{ path('candidate') }}">Mon profil</a>
+                        </li>                
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item {{ app.request.get('_route') == 'app_login' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                    
+                    <li class="nav-item {{ app.request.get('_route') == 'add_recruiter' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ path('recruiter_add') }}">Inscription Recruteur</a>
+                    </li>
+                    <li class="nav-item {{ app.request.get('_route') == 'candidate_add' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ path('candidate_add') }}">Inscription Candidat</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>

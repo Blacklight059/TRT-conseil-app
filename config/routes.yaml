@@ -128,13 +128,13 @@ applyjob:
     requirements:
         id: '\d+'
         
-candidate_add: 
-    path: /candidate/add
-    controller: "App/Controller/CandidateController::add"
+add_candidate: 
+    path: /candidate_add
+    controller: "App/Controller/HomeController::candidate_add"
 
-recruiter_add: 
-    path: /recruiter/add
-    controller: "App/Controller/RecruiterController::add"
+add_recruiter: 
+    path: /recruiter_add
+    controller: "App/Controller/HomeController::recruiter_add"
 
 recruiter_remove:
     path: /recuiter_remove/{id}
