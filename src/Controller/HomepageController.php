@@ -26,11 +26,14 @@ class HomepageController extends AbstractController
         JobOffersRepository $jobOffersRepository,
         CandidateRepository $candidateRepository): Response
     {
+        // We retrieve the current user
         $user = $this->getUser();
         $candidate = false;
         
+        // We retrieve the job offers with the validation parameter set to true
         $offers = $jobOffersRepository->findBy(array('validationJob' => true));
         if($user != null) {
+            // We retrieve the user role
             $user = $this->getUser()->getRoles()[0]; 
             $candidate = $candidateRepository->find($this->getUser());
             if($user === 'ROLES_CANDIDATE') {

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Candidate;
 use App\Entity\JobOffers;
 use App\Form\JobOffersFormType;
 use App\Repository\CandidateRepository;
@@ -21,7 +20,9 @@ class JobOffersController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(JobOffersRepository $jobOffersRepository): Response
     {
+        // We collect all job offers
         $offers = $jobOffersRepository->findAll();
+        // we retrieve current user
         $userID = $this->getUser();
 
         return $this->render('joboffers/index.html.twig', [
@@ -34,8 +35,9 @@ class JobOffersController extends AbstractController
 
     public function remove(EntityManagerInterface $entityManager, JobOffersRepository $jobOffersRepository, int $id): Response
     {
-        // On récupère l'article qui correspond à l'id passé dans l'URL
+        // We retrieve the job offer that corresponds to the id passed in the URL
         $jobOffers = $jobOffersRepository->findBy(['id' => $id])[0];
+        // we retrieve current user
         $userID = $this->getUser();
 
         
@@ -103,8 +105,9 @@ class JobOffersController extends AbstractController
         ): Response
     {
 
+        // We retrieve current user
         $user = $this->getUser();
-        // On récupère l'offre qui correspond à l'id passé dans l'url
+        // We retrieve the offer that corresponds to the id passed in the url
         $jobOffers = $jobOffersRepository->findBy(['id' => $id])[0];
         $jobOffers->addCandidate($user);
         $user = $candidateRepository->find($this->getUser());

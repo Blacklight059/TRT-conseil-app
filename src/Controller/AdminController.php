@@ -21,6 +21,7 @@ class AdminController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(ConsultantRepository $userRepository): Response
     {
+        // we get all consultant
         $users = $userRepository->findAll();
 
         return $this->render('admin/index.html.twig', [
@@ -33,10 +34,10 @@ class AdminController extends AbstractController
 
     public function remove(EntityManagerInterface $entityManager, ConsultantRepository $userRepository, int $id): Response
     {
-        // On récupère le consultant qui correspond à l'id passé dans l'URL
+        // We retrieve the consultant who corresponds to the id passed in the URL
         $user = $userRepository->findBy(['id' => $id])[0];
 
-        // Le consultant est supprimé
+        // The consultant is deleted
         $entityManager->remove($user);
         $entityManager->flush();
 
@@ -84,9 +85,7 @@ class AdminController extends AbstractController
     public function edit(EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher, ConsultantRepository $userRepository, Consultant $user, HttpFoundationRequest $request, int $id=null): Response
     {
 
-        // Si un identifiant est présent dans l'url alors il s'agit d'une modification
-        // Dans le cas contraire il s'agit d'une création d'article
-        // On récupère l'offre qui correspond à l'id passé dans l'url
+        // We retrieve the consultant id in the url
         $user = $userRepository->findBy(['id' => $id])[0];
 
     

@@ -6,7 +6,6 @@ use App\Entity\Admin;
 use App\Entity\Candidate;
 use App\Entity\Consultant;
 use App\Entity\Recruiter;
-use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;

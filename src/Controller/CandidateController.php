@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Candidate;
-use App\Entity\JobOffers;
 use App\Form\CandidateType;
 use App\Repository\CandidateRepository;
-use App\Repository\JobOffersRepository;
 use App\Security\UserAuthentificatorAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,6 +46,7 @@ class CandidateController extends AbstractController
         ): Response
         {
         
+            // We retrieve the candidate id in the url
             $user = $candidateRepository->findBy(['id' => $id])[0];
 
             $form = $this->createForm(CandidateType::class, $user);

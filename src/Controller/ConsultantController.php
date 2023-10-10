@@ -48,60 +48,6 @@ class ConsultantController extends AbstractController
             'candidateValidateConsultant' => $candidateValidateConsultant
         ]);
     }
-
-    #[Route('/consultant_remove/{id}', name: 'remove')]
-
-    public function remove(EntityManagerInterface $entityManager, UserRepository $userRepository, int $id): Response
-    {
-        // On récupère l'article qui correspond à l'id passé dans l'URL
-        $user = $userRepository->findBy(['id' => $id])[0];
-
-        // L'article est supprimé
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('admin');
-    }
-    #[Route('/consultant_add', name: 'new')]
-    #[Route('/consultant_edit/{id}', name: 'consultant_edit')]
-    public function edit(EntityManagerInterface $entityManager, UserRepository $userRepository, User $user, Request $request, int $id=null): Response
-    {
-
-        // Si un identifiant est présent dans l'url alors il s'agit d'une modification
-        // Dans le cas contraire il s'agit d'une création d'article
-        if($id) {
-            $mode = 'update';
-            // On récupère l'offre qui correspond à l'id passé dans l'url
-            $user = $userRepository->findBy(['id' => $id])[0];
-
-        }
-        else {
-            $mode = 'new';
-            $user = new User();
-            $roles[] = 'ROLE_CONSULTANT';      
-        }
-        $form = $this->createForm(UserType::class, $user);
-            $user = $form->getData();
-
-        if ($request->getMethod() == 'POST') {
-            $form->handleRequest($request);
-        }
-
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-            return $this->redirectToRoute('admin');
-        }
-
-        $parameters = array(
-            'form'      => $form->createView(),
-            'user'      => $user,
-            'mode'      => $mode
-        );
-
-        return $this->render('admin/edit.html.twig', $parameters);
-    }
     
     #[Route('/validation_recruiter/{id}', name: 'validation_recruiter')]
     public function validation_recruiter(
@@ -111,6 +57,7 @@ class ConsultantController extends AbstractController
     ): Response
     {
 
+        // We retrieve the recruiter who corresponds to the id passed in the URL
         $recruiterID = $recruiterRepository->findBy(['id' => $id])[0];
 
         $recruiterID->setValidation(true);
@@ -132,7 +79,7 @@ class ConsultantController extends AbstractController
         int $id=null
     ): Response
     {
-
+        // We retrieve the candidate who corresponds to the id passed in the URL
         $candidateID = $candidateRepository->findBy(['id' => $id])[0];
 
         $candidateID->setValidation(true);
@@ -154,6 +101,7 @@ class ConsultantController extends AbstractController
         int $id=null
     ): Response
     { 
+        // We retrieve the jobOffer who corresponds to the id passed in the URL
         $offers = $jobOffersRepository->findBy(['id' => $id])[0];
         $offers->setValidationJob(true);
 
@@ -172,8 +120,8 @@ class ConsultantController extends AbstractController
         JobOffersRepository $jobOffersRepository
         ): Response
     {
+        // We retrieve the job offer which corresponds to true in validationjob
         $offers = $jobOffersRepository->findBy(array('validationJob' => true));
-        dd($offers);
         return $this->render('consultant/index.html.twig', [
             'controller_name' => 'ConsultantController',
             'offers' => $offers
@@ -190,12 +138,20 @@ class ConsultantController extends AbstractController
         int $id2=null,
         ): Response
     {
-        $offersID = $jobOffersRepository->findAll();
+        // We retrieve the connected consultant using the ID
         $consultant = $this->getUser();
         $consultantID = $consultantRepository->find($consultant);
+
+        // We retrieve the connected job offer using the ID
         $offers = $jobOffersRepository->findBy(['id' => $id1])[0];
+
+        // We retrieve the connected candidate using the ID
         $candidate = $candidateRepository->find(['id' => $id2]);
+
+        // We retrieve the recruiter's email
         $recruiter = $offers->getRecruiter()->getEmail();
+
+        // We pass the validation to true
         $offers->setConsultanValidate(true);
         $candidate->setConsultantValidate(true);
 
@@ -204,10 +160,6 @@ class ConsultantController extends AbstractController
         $email = (new Email())
             ->from($consultantID->getEmail())
             ->to($recruiter)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
             ->subject('Candidat selectionné pour votre offre d\'emploi')
             ->text('Nom :'. $candidate->getLastname() . 'prénom :' . $candidate->getFirstname())
             ->html('<p>Voici un candidat qui a repondu à vos critères</p>')
